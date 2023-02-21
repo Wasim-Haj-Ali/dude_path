@@ -1,0 +1,6 @@
+# TO BUILD: 
+    docker build -t fastapi-webserver .
+
+# TO RUN: 
+    docker run -d --name fastapi-webserver -p 23000:23000 fastapi-webserver
+
