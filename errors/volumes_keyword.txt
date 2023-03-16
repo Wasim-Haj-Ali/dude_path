@@ -1,0 +1,35 @@
+dude_path_database    | 2023-03-16 08:01:50+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.32-1.el8 started.
+dude_path_database    | 2023-03-16 08:01:50+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+dude_path_database    | 2023-03-16 08:01:50+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.32-1.el8 started.
+dude_path_database    | '/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'
+dude_path_api         | Traceback (most recent call last):
+dude_path_api         |   File "/usr/local/bin/uvicorn", line 8, in <module>
+dude_path_api         |     sys.exit(main())
+dude_path_api         |              ^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1130, in __call__
+dude_path_api         |     return self.main(*args, **kwargs)
+dude_path_api         |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1055, in main
+dude_path_api         |     rv = self.invoke(ctx)
+dude_path_api         |          ^^^^^^^^^^^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1404, in invoke
+dude_path_api         |     return ctx.invoke(self.callback, **ctx.params)
+dude_path_api         |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 760, in invoke
+dude_path_api         |     return __callback(*args, **kwargs)
+dude_path_api         |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 425, in main
+dude_path_api         |     run(app, **kwargs)
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 447, in run
+dude_path_api         |     server.run()
+dude_path_api         |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 68, in run
+dude_path_api         |     return asyncio.run(self.serve(sockets=sockets))
+dude_path_api         |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+dude_path_api         |     return runner.run(main)
+dude_path_api         |            ^^^^^^^^^^^^^^^^
+dude_path_api         |   File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+dude_path_api         |     return self._loop.run_until_complete(task)
+dude_path_api         |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dude_path_api         |   File "<frozen importlib._bootstrap>", line 1142, in _find_and_load_unlocked
+dude_path_api         | ModuleNotFoundError: No module named 'app'

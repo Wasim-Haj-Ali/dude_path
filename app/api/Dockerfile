@@ -9,13 +9,18 @@
 
 FROM python:3.11-slim
 
-
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
 
-COPY ./app /code/app
+COPY . /code/app
+
+RUN echo "Installing libraries..."
+
+RUN pip install fastapi "uvicorn[standard]"
 
 RUN pip install --upgrade -r /code/requirements.txt
+
+RUN echo "Finished installing libraries!"
 
 CMD  ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "23000"]
