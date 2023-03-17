@@ -33,9 +33,19 @@ ___
         `docker-compose up -d`to start it in detached mode (Running in the background).
     + Status of the running containers: <br>
         `docker-compose ps`
-    + Stop: <br>
-        `docker-compose down`. To stop a specific running container specify the name of the container or the service.
+    + Stop and remove: <br>
+        `docker-compose down`. To *stop and remove* a specific running container specify the name of the container or the service.
+    + Stop without removing: <br>
+        `docker-compose stop`
 
++ Docker general commands:
+    + List all containers: <br>
+        `docker container ls`
+    + Access a container will it is running: <br>
+        `docker exec -it {CONTAINER ID} /bin/bash` "/bin/bash" is the starting point which is the terminal of this container.
+
++ MYSQL container:
+    + navigate to the `docker-entrypoint-initdb.d` and type `mysql -u root -p` to access the mysql termnial where you can experement with the container (`show databases;`, ...)
 
 
 
@@ -81,6 +91,5 @@ ___
 ## Challenges:
 ___
 
-+ `requirements.txt` was not reachable from the "/app/api/Dockerfile" and solved by adding a copy of the requirements.txt in the "/app/api/" folder, which is not a good solution at all.
-+ `"3307:3306"` when exposing the ports, I could not choose the default port on my host machine (Error message: *ERROR: for dude_path_database  Cannot start service dude_path_database: Ports are not available: exposing port TCP 0.0.0.0:3306 -> 0.0.0.0:0: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted. ERROR: Encountered errors while bringing up the project.*).
-+ `volumes: - ./app/api:/code` error message in "/errors/volumes_keyword.txt" this keyword should mount a host directory or a named volume as a data volume inside the container. This satisfies the task: *Database and your service should be reachable from the hostmachine*. The colon "`:`" is used to separate the source and destination paths.
++ `"3307:3306"`: when exposing the ports, I could not choose the default port on my host machine (Error message: *ERROR: for dude_path_database  Cannot start service dude_path_database: Ports are not available: exposing port TCP 0.0.0.0:3306 -> 0.0.0.0:0: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted. ERROR: Encountered errors while bringing up the project.*).
++ `Connecting to mysql db failing`: error in "/errors/connecting_to_db.txt"

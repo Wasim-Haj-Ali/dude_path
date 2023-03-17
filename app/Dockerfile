@@ -23,4 +23,4 @@ RUN pip install --upgrade -r /code/requirements.txt
 
 RUN echo "Finished installing libraries!"
 
-CMD  ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "23000"]
+CMD  ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "23000"]

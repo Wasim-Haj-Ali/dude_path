@@ -11,10 +11,11 @@ services:
       - MYSQL_DATABASE=dude_path_database
       - MYSQL_ROOT_USER=root
       - MYSQL_ROOT_PASSWORD=root
-    ports:
-      - "3308:3306"
+    # ports:  # Blocking the access to the database container, while still allowing access to the API container through port 23000.
+    #   - "3308:3306" # Command: docker-compose -f docker-compose.prod.yaml port dude_path_database 3306
     networks:
       - dud_path_network
+
 
   dude_path_api:
     build: ./app/
