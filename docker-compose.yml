@@ -1,28 +1,31 @@
 version: '3.9'
 
 networks:
-  dud_path_network:
+  dude_path_network:
 
 services:
   dude_path_database:
-    image: mysql:8.0
+    image: postgres:alpine
     container_name: dude_path_database
     environment:
-      - MYSQL_DATABASE=dude_path_database
-      - MYSQL_ROOT_USER=root
-      - MYSQL_ROOT_PASSWORD=root
-    ports:
-      - "3308:3306"
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dude_path_database
+    volumes:  # executing the sql file when building the image
+      - ./src/database/create_indicators_table.sql:/docker-entrypoint-initdb.d/create_indicators_table.sql
     networks:
-      - dud_path_network
+      - dude_path_network
 
   dude_path_api:
-    build: ./app/
-    container_name: dude_path_api
-    # volumes:    # (Why this breaking my container).
-    #   - ./app/api:/code
+    build: ./src/
+    container_name: dude_path_app
     ports:
       - "23000:23000"
+    environment:
+      - POSTGRES_HOST=dude_path_database
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     networks:
-      - dud_path_network
+      - dude_path_network
 

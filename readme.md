@@ -49,6 +49,16 @@ ___
 
 
 
++ PostgreSQL container:
+    + access the container `docker exec -it dude_path_database bash`
+    + check the if postgres working and if root access if granted `psql`
+    + access the container: `psql -U postgres`. "`postgres`" is the user with root access.
+    + check current user: `\du`
+    + time to shine with sql skills :)
+    + check current databses: `\l`
+    + connect to a database: `\c dude_path_database`
+    + print out the existing tables: `\dt;`
+    + print out the content of a table: `\d indicators`. "`indicators`" is a table name.
 <br>
 
 ## Explanation
@@ -64,6 +74,7 @@ ___
 
 
 ### Dockerfile database:
+**Not being used and deprecated due to switch to postgresql image**
 + **`FROM mysql:latest`**: specifies the base image that this Docker image is built on top of. In this case, the base image is the latest version of the official MySQL Docker image.
 + **`ENV password=root`**: Environment variable is used by MySQL to set the root password for the MySQL server.
 + **`COPY ./database_commands.sql /docker-entrypoint-initdb.d/`**: This copies the *database_commands.sql* file from the local directory ./ into the */docker-entrypoint-initdb.d/* directory in the Docker image. The directory name `docker-entrypoint-initdb.d` is used because it is recognized by the official MySQL Docker image as the location where it will automatically execute any SQL scripts that are placed in that directory when the container is first started up.
@@ -91,5 +102,3 @@ ___
 ## Challenges:
 ___
 
-+ `"3307:3306"`: when exposing the ports, I could not choose the default port on my host machine (Error message: *ERROR: for dude_path_database  Cannot start service dude_path_database: Ports are not available: exposing port TCP 0.0.0.0:3306 -> 0.0.0.0:0: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted. ERROR: Encountered errors while bringing up the project.*).
-+ `Connecting to mysql db failing`: error in "/errors/connecting_to_db.txt"
