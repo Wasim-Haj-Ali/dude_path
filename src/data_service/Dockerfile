@@ -14,4 +14,4 @@ RUN pip install --upgrade -r /dude_path_app/requirements.txt
 
 RUN echo "Finished installing libraries!"
 
-CMD  ["uvicorn", "src.gateway_service.api.main:app", "--host", "0.0.0.0", "--port", "23000"]
+CMD  ["uvicorn", "src.data_service.api.main:app", "--host", "0.0.0.0", "--port", "23002"]

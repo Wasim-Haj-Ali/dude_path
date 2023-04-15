@@ -1,9 +1,0 @@
-# FROM mysql:latest
-
-# ENV password=root
-
-# COPY ./database_commands.sql /docker-entrypoint-initdb.d/
-
-# RUN docker build -t dude_path_database .
-
-# CMD ["docker", "run", "-d", "-p", "3306:3306", "--name", "dude_path_database", "-e", "password=root", "dude_path_database"]

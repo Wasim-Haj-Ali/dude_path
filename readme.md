@@ -3,6 +3,10 @@
 <br>
 
 
+## Routes:
+
++ `http://localhost:23000/docs` 
+
 ## Virtual Environment (venv):
 ___
 + Create: <br>

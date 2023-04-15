@@ -1,9 +1,10 @@
-version: '3.9'
+version: '3.7'
 
 networks:
   dude_path_network:
 
 services:
+
   dude_path_database:
     image: postgres:alpine
     container_name: dude_path_database
@@ -12,13 +13,30 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=dude_path_database
     volumes:  # executing the sql file when building the image
-      - ./src/database/create_indicators_table.sql:/docker-entrypoint-initdb.d/create_indicators_table.sql
+      - ./src/database_service/database/create_indicators_table.sql:/docker-entrypoint-initdb.d/create_indicators_table.sql
+      - ./src/database_service/database/create_users_table.sql:/docker-entrypoint-initdb.d/create_users_table.sql
     networks:
       - dude_path_network
 
-  dude_path_api:
+
+  # indicatorsdatabase:
+  #   image: postgres:alpine
+  #   container_name: indicatorsdatabase
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=indicatorsdatabase
+  #   volumes:  # executing the sql file when building the image
+  #     - ./src/data_service/database/create_indicators_table.sql:/docker-entrypoint-initdb.d/create_indicators_table.sql
+  #   ports:
+  #     - "5433:5432"
+  #   networks:
+  #     - dude_path_network
+
+
+  dude_path_gateway:
     build: ./src/
-    container_name: dude_path_app
+    container_name: dude_path_gateway
     ports:
       - "23000:23000"
     environment:
@@ -28,4 +46,38 @@ services:
       - POSTGRES_PASSWORD=postgres
     networks:
       - dude_path_network
+    depends_on:
+      - dude_path_database
+
+
+  user_service:
+    build: 
+      context: ./src/
+      dockerfile: ./user_service/Dockerfile
+    container_name: user_service
+    environment:
+      - POSTGRES_HOST=dude_path_database
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - dude_path_network
+    depends_on:
+      - dude_path_database
+  
+
+  data_service:
+    build: 
+      context: ./src/
+      dockerfile: ./data_service/Dockerfile
+    container_name: data_service
+    environment:
+      - POSTGRES_HOST=dude_path_database
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - dude_path_network
+    depends_on:
+      - dude_path_database
 
