@@ -7,7 +7,7 @@
     "user_service": {
         "base_url": "http://user_service:23001",
         "health_route": "/user/health",
-        "create_route": "/user/sign-up",
+        "create_route": "/user/signup",
         "delete_route": "/user/{slug}",
         "update_route": "",
         "get_one_route": "/user/{slug}",
@@ -18,8 +18,9 @@
         "base_url": "http://data_service:23002",
         "health_route": "/data/health",
         "create_route": "/data/indicators/create",
-        "delete_route": "/data/indicators/{slug}",
-        "update_route": "",
+        "upsert_route": "/data/indicators/upsert",
+        "update_route": "/data/indicators/update/{slug}",
+        "delete_route": "/data/indicators/delete/{slug}",
         "get_one_route": "/data/indicators/{slug}",
         "get_all_route": "/data/indicators"
     }

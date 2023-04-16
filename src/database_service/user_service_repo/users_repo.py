@@ -42,9 +42,11 @@ class UsersRepo:
 
         cursor = connection.cursor()
 
-        cursor.execute(f"SELECT * FROM {self.table} WHERE slug = {slug};")
+        query = f"SELECT * FROM {self.table} WHERE slug = %s;"
+        
+        cursor.execute(query, (slug,))
 
-        data = cursor.fetchall()
+        data = cursor.fetchone()
 
         self.db_object.close_cursor_and_coonnection(cursor=cursor, connection=connection)
 
@@ -52,23 +54,22 @@ class UsersRepo:
 
 
     @benchmark
-    def create(self, data: dict):
-        # Validate the data
-        user = User(**data)
-
+    def create(self, user: User):
+        
         connection = self.db_object.connect()
 
         cursor = connection.cursor()
 
         # Execute the insert statement with placeholders
         sql_insert = f"INSERT INTO {self.table} (slug, username, password) VALUES (%s, %s);"
-        cursor.execute(sql_insert, (user.slug, user.password))
+        
+        cursor.execute(sql_insert, (user.slug, user.username, user.password))
 
         connection.commit()
 
         sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
 
-        cursor.execute(sql_fetch, (user.slug, user.user_name, user.password,))
+        cursor.execute(sql_fetch, (user.slug, user.username, user.password,))
     
         result = cursor.fetchone()
 

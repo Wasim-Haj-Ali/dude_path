@@ -41,9 +41,11 @@ class IndicatorsRepo:
 
         cursor = connection.cursor()
 
-        cursor.execute(f"SELECT * FROM {self.table} WHERE slug = {slug};")
+        query = f"SELECT * FROM {self.table} WHERE slug = %s;"
+        
+        cursor.execute(query, (slug,))
 
-        data = cursor.fetchall()
+        data = cursor.fetchone()
 
         self.db_object.close_cursor_and_coonnection(cursor=cursor, connection=connection)
 
@@ -51,10 +53,8 @@ class IndicatorsRepo:
 
 
     @benchmark
-    def create(self, data: dict):
-        # Validate the data
-        indicator = Indicator(**data)
-
+    def create(self, indicator: Indicator):
+        
         connection = self.db_object.connect()
         
         cursor = connection.cursor()
@@ -62,6 +62,30 @@ class IndicatorsRepo:
         # Execute the insert statement with placeholders
         sql_insert = f"INSERT INTO {self.table} (slug, content) VALUES (%s, %s);"
         cursor.execute(sql_insert, (indicator.slug, indicator.content))
+
+        connection.commit()
+
+        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
+
+        cursor.execute(sql_fetch, (indicator.slug,))
+        
+        result = cursor.fetchone()
+
+        connection.close()
+
+        return result
+    
+    
+    @benchmark
+    def update(self, indicator: Indicator):
+        
+        connection = self.db_object.connect()
+        
+        cursor = connection.cursor()
+
+        # Prepared statements
+        sql_update = f"UPDATE {self.table} SET name = %s, content = %s WHERE slug = %s;"
+        cursor.execute(sql_update, (indicator.name, indicator.content))
 
         connection.commit()
 

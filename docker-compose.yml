@@ -12,9 +12,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=dude_path_database
-    volumes:  # executing the sql file when building the image
-      - ./src/database_service/database/create_indicators_table.sql:/docker-entrypoint-initdb.d/create_indicators_table.sql
-      - ./src/database_service/database/create_users_table.sql:/docker-entrypoint-initdb.d/create_users_table.sql
+    volumes:  # executing the sql file when building the image. # 1order, 2order,... is the sort the files alphabetically to execute
+      - ./src/database_service/database/create_users_table.sql:/docker-entrypoint-initdb.d/create_1order_users_table.sql
+      - ./src/database_service/database/create_indicators_table.sql:/docker-entrypoint-initdb.d/create_2order_indicators_table.sql
     networks:
       - dude_path_network
 

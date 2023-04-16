@@ -31,8 +31,7 @@ def read_health():
 @app.get("/api/user/health")
 def read_user_health():
     url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["health_route"]
-    print(url)
-    print("__________________________________________________________")
+
     response = rq.get(url)
 
     content = response.json()
@@ -44,8 +43,6 @@ def read_user_health():
 def read_data_health():
 
     url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["health_route"]
-    print(url)
-    print("__________________________________________________________")
 
     response = rq.get(url)
 
@@ -61,9 +58,9 @@ def read_data_health():
 def create_user(data: dict):
     
     headers = {
-        "key": "value"
+        "Content-Type": "application/json"
     }
-
+    
     url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["create_route"]
 
     response = rq.post(url, data=data, headers=headers)
@@ -74,11 +71,47 @@ def create_user(data: dict):
 
 
 
-@app.post("/api/data/create")
+## create
+@app.post("/api/data")
 def create_indicator(data: dict):
     
     headers = {
-        "key": "value"
+        "Content-Type": "application/json"
+    }
+
+    url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["create_route"]
+
+    response = rq.post(url, data=data, headers=headers)
+
+    content = response.json()
+    
+    return content
+
+
+## update
+@app.patch("/api/data/{id}")
+def update_indicator(slug: str, data: dict):
+    
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    # .format is a necessity becuase the update_route contains a place holder and using something like "+ slug" will keep the placeholder as a str and makes the url invalid!
+    url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["update_route"].format(slug=slug)
+
+    response = rq.put(url, json=data, headers=headers)
+
+    content = response.json()
+    
+    return content
+
+
+## upsert
+@app.put("/api/data")
+def create_indicator(data: dict):
+    
+    headers = {
+        "Content-Type": "application/json"
     }
 
     url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["create_route"]
@@ -100,16 +133,16 @@ def get_all_indicators():
 
     response = rq.get(url)
 
-    # content = response.json()
-    content = response.content
+    content = response.json()
+    
     return content 
 
 
 @app.get("/api/user/content/{slug}")
-def get_indicator(slug: str):
+def get_user(slug: str):
     
-    url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["get_one_route"] + "/" + slug
-
+    url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["get_one_route"].format(slug=slug)
+    
     response = rq.get(url)
 
     content = response.json()
@@ -120,10 +153,10 @@ def get_indicator(slug: str):
 @app.get("/api/data/content/{slug}")
 def get_indicator(slug: str):
     
-    url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["get_one_route"] + "/" + slug
+    url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["get_one_route"].format(slug=slug)
 
     response = rq.get(url)
-
+    
     content = response.json()
     
     return content 
@@ -131,9 +164,9 @@ def get_indicator(slug: str):
 
 ############### DELETE ###############
 @app.get("/api/user/delete/{slug}")
-def delete_indicator(slug: str):
+def delete_user(slug: str):
     
-    url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["delete_route"] + "/" + slug
+    url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["delete_route"].format(slug=slug)
 
     response = rq.get(url)
 
@@ -145,7 +178,7 @@ def delete_indicator(slug: str):
 @app.get("/api/data/delete/{slug}")
 def delete_indicator(slug: str):
     
-    url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["delete_route"] + "/" + slug
+    url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["delete_route"].format(slug=slug)
 
     response = rq.post(url)
 

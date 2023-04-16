@@ -3,16 +3,17 @@ import re
 from pydantic import BaseModel
 
 class User(BaseModel):
-    user_name: str
+    username: str
     password: str
 
-    @property
-    def slug(self):
+    def __init__(self, slug: str, username: str, password: list):
+        super().__init__(slug=slug, username=username, password=password)
+        
         unique_suffix = str(uuid.uuid4())
 
         # regex that accepts only letters and numbers
         pattern = r"^[a-zA-Z0-9]+$"
 
-        user_name_sanitized = re.sub(r"[^a-zA-Z0-9]", "", self.user_name).lower()
+        username_sanitized = re.sub(pattern, "", self.username).lower()
          
-        return user_name_sanitized + '-' + unique_suffix
+        self.slug = username_sanitized + '-' + unique_suffix
