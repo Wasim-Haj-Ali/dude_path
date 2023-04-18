@@ -41,9 +41,13 @@ class IndicatorsRepo:
 
         cursor = connection.cursor()
 
-        query = f"SELECT * FROM {self.table} WHERE slug = %s;"
+        # query = f"SELECT * FROM {self.table} WHERE slug = %s;"
         
-        cursor.execute(query, (slug,))
+        # cursor.execute(query, (slug,))
+
+        query = f"SELECT * FROM {self.table} WHERE slug = '{slug}';"
+
+        cursor.execute(query)
 
         data = cursor.fetchone()
 
@@ -56,18 +60,24 @@ class IndicatorsRepo:
     def create(self, indicator: Indicator):
         
         connection = self.db_object.connect()
-        
+
         cursor = connection.cursor()
 
         # Execute the insert statement with placeholders
-        sql_insert = f"INSERT INTO {self.table} (slug, content) VALUES (%s, %s);"
-        cursor.execute(sql_insert, (indicator.slug, indicator.content))
+        # sql_insert = f"INSERT INTO {self.table} (slug, content) VALUES (%s, %s);"
+        # cursor.execute(sql_insert, (indicator.slug, indicator.content))
+        sql_insert = f"INSERT INTO {self.table} (slug, name, userslug, content) VALUES ('{indicator.slug}', '{indicator.name}', '{indicator.userslug}', '{indicator.content}');"
+        cursor.execute(sql_insert)
 
         connection.commit()
 
-        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
+        # sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
 
-        cursor.execute(sql_fetch, (indicator.slug,))
+        # cursor.execute(sql_fetch, (indicator.slug,))
+
+        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = '{indicator.slug}';")
+
+        cursor.execute(sql_fetch)
         
         result = cursor.fetchone()
 
@@ -84,14 +94,21 @@ class IndicatorsRepo:
         cursor = connection.cursor()
 
         # Prepared statements
-        sql_update = f"UPDATE {self.table} SET name = %s, content = %s WHERE slug = %s;"
-        cursor.execute(sql_update, (indicator.name, indicator.content))
+        # sql_update = f"UPDATE {self.table} SET name = %s, content = %s WHERE slug = %s;"
+        # cursor.execute(sql_update, (indicator.name, indicator.content))
+
+        sql_update = f"UPDATE {self.table} SET name = '{indicator.name}', content = '{indicator.content}', userslug = '{indicator.userslug}' WHERE slug = '{indicator.slug}';"
+        cursor.execute(sql_update)
 
         connection.commit()
 
-        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
+        # sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
 
-        cursor.execute(sql_fetch, (indicator.slug,))
+        # cursor.execute(sql_fetch, (indicator.slug,))
+
+        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = '{indicator.slug}';")
+
+        cursor.execute(sql_fetch)
         
         result = cursor.fetchone()
 
@@ -108,8 +125,11 @@ class IndicatorsRepo:
         cursor = connection.cursor()
 
         # Execute the delete statement with placeholders
-        sql = f"DELETE FROM {self.table} WHERE slug = %s;"
-        cursor.execute(sql, (slug,))
+        # sql = f"DELETE FROM {self.table} WHERE slug = %s;"
+        # cursor.execute(sql, (slug,))
+
+        sql = f"DELETE FROM {self.table} WHERE slug = '{slug}';"
+        cursor.execute(sql)
         
         connection.commit()
 

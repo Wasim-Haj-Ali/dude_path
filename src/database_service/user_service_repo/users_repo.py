@@ -42,9 +42,13 @@ class UsersRepo:
 
         cursor = connection.cursor()
 
-        query = f"SELECT * FROM {self.table} WHERE slug = %s;"
+        # query = f"SELECT * FROM {self.table} WHERE slug = %s;"
         
-        cursor.execute(query, (slug,))
+        # cursor.execute(query, (slug,))
+
+        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = '{slug}';")
+
+        cursor.execute(sql_fetch)
 
         data = cursor.fetchone()
 
@@ -61,15 +65,21 @@ class UsersRepo:
         cursor = connection.cursor()
 
         # Execute the insert statement with placeholders
-        sql_insert = f"INSERT INTO {self.table} (slug, username, password) VALUES (%s, %s);"
+        # sql_insert = f"INSERT INTO {self.table} (slug, username, password) VALUES (%s, %s, %s);"
         
-        cursor.execute(sql_insert, (user.slug, user.username, user.password))
+        # cursor.execute(sql_insert, (user.slug, user.username, user.password))
+        sql_insert = f"INSERT INTO {self.table} (slug, username, password) VALUES ('{user.slug}', '{user.username}', '{user.password}');"
+
+        cursor.execute(sql_insert)
 
         connection.commit()
 
-        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = %s;")
+        # sql_fetch = (f"""SELECT * FROM {self.table} WHERE slug = %s;""")
 
-        cursor.execute(sql_fetch, (user.slug, user.username, user.password,))
+        # cursor.execute(sql_fetch, (user.slug))
+        sql_fetch = (f"SELECT * FROM {self.table} WHERE slug = '{user.slug}';")
+
+        cursor.execute(sql_fetch)
     
         result = cursor.fetchone()
 
@@ -86,8 +96,11 @@ class UsersRepo:
         cursor = connection.cursor()
 
         # Execute the delete statement with placeholders
-        sql = f"DELETE FROM {self.table} WHERE slug = %s;"
-        cursor.execute(sql, (slug,))
+        # sql = f"DELETE FROM {self.table} WHERE slug = %s;"
+        # cursor.execute(sql, (slug,))
+        sql = f"DELETE FROM {self.table} WHERE slug = '{slug}';"
+        
+        cursor.execute(sql)
         
         connection.commit()
 

@@ -14,7 +14,6 @@ class Database:
     def connect(self):
         try:
             # These values should match the values that are specified in the environment variables of the dude_path_app container in the docker-compose.yml file
-            print("_________________STARTED CONNECTING________________")
             connection = psycopg2.connect(
                 dbname="usersdatabase",
                 user="postgres",

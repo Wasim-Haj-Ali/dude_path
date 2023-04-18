@@ -63,7 +63,7 @@ def create_user(data: dict):
     
     url = USER_SERVICE_INFO["base_url"] + USER_SERVICE_INFO["create_route"]
 
-    response = rq.post(url, data=data, headers=headers)
+    response = rq.post(url, json=data, headers=headers)
 
     content = response.json()
     
@@ -81,7 +81,7 @@ def create_indicator(data: dict):
 
     url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["create_route"]
 
-    response = rq.post(url, data=data, headers=headers)
+    response = rq.post(url, json=data, headers=headers)
 
     content = response.json()
     
@@ -116,7 +116,7 @@ def create_indicator(data: dict):
 
     url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["create_route"]
 
-    response = rq.post(url, data=data, headers=headers)
+    response = rq.post(url, json=data, headers=headers)
 
     content = response.json()
     
@@ -180,7 +180,7 @@ def delete_indicator(slug: str):
     
     url = DATA_SERVICE_INFO["base_url"] + DATA_SERVICE_INFO["delete_route"].format(slug=slug)
 
-    response = rq.post(url)
+    response = rq.get(url)
 
     content = response.json()
     

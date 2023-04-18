@@ -49,6 +49,7 @@ def create_user(data: dict):
     # Validate the data
     validated_user = User(**data)
 
+
     created_user = user_repo.create(validated_user)
     
     if created_user == None:
